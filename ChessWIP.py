@@ -82,7 +82,8 @@ class Board:
                 if  self.board[src[0]][src[1] + color] == "_" and target == "_":
                     if src[1] == 1 and color == 1 or src[1] == 6 and color == -1:
                         return self.legalMove(src,dst)
-                
+            
+            print("error: collision")    
             return(-1)
         
         # diagonal capture
@@ -103,7 +104,7 @@ class Board:
             color = 1
         elif piece == "b":
             color = -1
-            
+        # get xy change    
         dx = dst[0] - src[0]
         dy = dst[1] - src[1]
         
@@ -128,6 +129,7 @@ class Board:
                     temp += 1
                 else:
                     # collision
+                    print("error: collision")
                     return -1
                     
             if target == "_":
@@ -139,27 +141,28 @@ class Board:
                 if target in self.whitePieces:
                     return self.legalMove(src, dst)
             else:
+                print("error: unknown move; try again")
                 return -1
             
             
     def moveRook(self, src, dst):
         piece = self.board[src[0]][src[1]]
         target = self.board[dst[0]][dst[1]]
-        if piece == "B":
+        if piece == "R":
             color = 1
-        elif piece == "b":
+        elif piece == "r":
             color = -1
-            
+        # get xy change
         dx = dst[0] - src[0]
         dy = dst[1] - src[1]
-        
+       
         if dx == 0:
-            dxSign = 1
+            dxSign = 0
         else:
             dxSign =  int(dx / abs(dx))
             
         if dy == 0:
-            dySign = 1
+            dySign = 0
         else:
             dySign = int(dy / abs(dy))
         
@@ -171,7 +174,7 @@ class Board:
           
         else:
 
-            # check for collisions  
+            # check for collisions
             temp = 1
             while temp < abs(dx):
                 
@@ -181,21 +184,62 @@ class Board:
                     temp += 1
                 else:
                     # collision
+                    print("error: collision")
                     return -1
-                    
+                 
             if target == "_":
-                return self.legalMove(src, dst)       
+                return self.legalMove(src, dst) 
+            
             elif color == 1:
+                
                 if target in self.blackPieces:
                     return self.legalMove(src, dst)
             elif color == -1:
                 if target in self.whitePieces:
                     return self.legalMove(src, dst)
+            
             else:
+                print("error: unknown move; try again")
                 return -1
                 
     def moveKnight(self, src, dst):
-        pass
+        piece = self.board[src[0]][src[1]]
+        target = self.board[dst[0]][dst[1]]
+        if piece == "N":
+            color = 1
+        elif piece == "n":
+            color = -1
+
+        # get xy change
+        dx = dst[0] - src[0]
+        dy = dst[1] - src[1]
+       
+        if abs(dx) + abs(dy) != 3:
+            print("error: illegal move")
+            return -1
+        if dx == 0 or dy == 0:
+            print("error: illegal move")
+            return -1
+        
+        if target == "_":
+            return self.legalMove(src, dst) 
+        elif color == 1:
+            if target in self.blackPieces:
+                return self.legalMove(src, dst)
+            else:
+                print("error: illegal move")
+                return -1
+        elif color == -1:
+            if target in self.whitePieces:
+                return self.legalMove(src, dst)
+            else:
+                print("error: illegal move")
+                return -1
+        else:
+            print("error: unknown move; try again")
+            return -1    
+                
+                
     def moveQueen(self, src, dst):
         pass
     def moveKing(self, src, dst):
@@ -313,16 +357,81 @@ def rookTest(x):
     b = Board()
     
     if x == 1:
-        print("rook move up then out")
+        print("rook move up")
+        b.getBoard()
+        b.move((0,1),(0,3))
+        b.getBoard()
+        b.move((0,0),(0,2))
+        b.getBoard()  
+        
+    if x == 2:
+        print("rook collision test")
         b.getBoard()
         b.move((0,1),(0,3))
         b.getBoard()
         b.move((0,0),(0,3))
-        b.getBoard()        
+        b.getBoard()     
+        
+    if x == 3:
+        print("rook move up then out")
+        b.getBoard()
+        b.move((0,1),(0,3))
+        b.getBoard()
+        b.move((0,0),(0,2))
+        b.getBoard()      
+        b.move((0,2),(7,2))
+        b.getBoard()  
+        
+    if x == 4:
+        print("rook capture test")
+        b.getBoard()
+        b.move((0,1),(0,3))
+        b.getBoard()
+        b.move((0,0),(0,2))
+        b.getBoard()      
+        b.move((0,2),(7,2))
+        b.getBoard()  
+        b.move((7,2),(7,6))
+        b.getBoard()  
+          
+    
        
-rookTest(1)
+#rookTest(4)
 
-
+def knightTest(x):
+         
+    b = Board()
+    
+    if x == 1:
+        print("knight move out")
+        b.getBoard()
+        b.move((1,0),(2,2))
+        b.getBoard()
+        b.move((2,2),(4,3))
+        b.getBoard()
+        
+    if x == 2:
+        print("collision test")
+        b.getBoard()
+        b.move((1,0),(2,2))
+        b.getBoard()
+        b.move((2,2),(4,1))
+        b.getBoard()
+        
+    if x == 3:
+        print("capture test")
+        b.getBoard()
+        b.move((1,0),(2,2))
+        b.getBoard()
+        b.move((2,2),(4,3))
+        b.getBoard()
+        b.move((3,6),(3,5))
+        b.getBoard()
+        b.move((4,3),(3,5))
+        b.getBoard()
+        
+        
+knightTest(3)
 
 
 

@@ -1,6 +1,6 @@
 # Forrest Richardson
 # note: white uses capital letters, black uses lowercase
-# 
+# ################################################################
 
 class Board:
     def __init__(self):

@@ -1,7 +1,7 @@
 # Forrest Richardson
 # note: white uses capital letters, black uses lowercase
 
-# test comment
+# test comment 1234
 class Board:
     def __init__(self):
         self.blackPieces = ["w" ,"r", "n", "b", "q", "k"]
